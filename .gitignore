@@ -1,3 +1,7 @@
+# config sandbox
+.codesandbox
+sandbox.config.json
+
 node_modules
 dist
 .parcel-cache
