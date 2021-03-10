@@ -1,7 +1,11 @@
 import * as THREE from "three";
-import gsap from "gsap";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+// import gsap from "gsap";
 
-// Scene and Camera
+// Get canvas element
+const canvasElement = document.getElementById("canvas");
+
+// Define Scene and Camera
 const scene = new THREE.Scene();
 
 const sizes = {
@@ -26,10 +30,21 @@ const camera = new THREE.PerspectiveCamera(fov, aspectRatio, near, far);
 camera.position.y = 1;
 camera.position.z = 3;
 
+// Controls
+const controls = new OrbitControls(camera, canvasElement);
+controls.enableDamping = true;
+// controls.target.y = 2
+// controls.update()
+
+const cursor = {
+  x: 0,
+  y: 0
+};
+
 window.addEventListener("mousemove", (event) => {
   // console.log(event.clientX, event.clientY);
-  camera.position.x = event.clientX;
-  camera.position.y = event.clientY;
+  cursor.x = event.clientX / sizes.width - 0.5;
+  cursor.y = event.clientY / sizes.height - 0.5;
 });
 
 scene.add(camera);
@@ -49,7 +64,7 @@ scene.add(light);
 scene.add(directionalLight);
 
 const renderer = new THREE.WebGLRenderer({
-  canvas: document.getElementById("canvas")
+  canvas: canvasElement
 });
 
 renderer.setSize(sizes.width, sizes.height);
@@ -65,10 +80,18 @@ function tick() {
   // const deltaTime = currentTime - time;
   // time = currentTime;
   // const elapsedTime = clock.getElapsedTime();
-  // camera.position.y = Math.sin(elapsedTime);
-  // camera.position.x = Math.cos(elapsedTime);
-  // camera.lookAt(mesh.position);
+
+  // // Update camera with event mousemove
+  // camera.position.z = Math.cos(cursor.x * Math.PI * 2) + 3;
+  // camera.position.x = Math.sin(cursor.x * Math.PI * 2) + 3;
+  // camera.position.y = -cursor.y * 3;
+  camera.lookAt(mesh.position);
+
+  // Update controls
+  controls.update();
+
+  // Render in each frame
   renderer.render(scene, camera);
   window.requestAnimationFrame(tick);
 }
-// tick();
+tick();
