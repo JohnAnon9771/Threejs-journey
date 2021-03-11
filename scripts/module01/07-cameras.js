@@ -30,22 +30,53 @@ const camera = new THREE.PerspectiveCamera(fov, aspectRatio, near, far);
 camera.position.y = 1;
 camera.position.z = 3;
 
+window.addEventListener("resize", (event) => {
+  // Update sizes
+  sizes.width = window.innerWidth;
+  sizes.height = window.innerHeight;
+  // Update camera
+  camera.aspect = sizes.width / sizes.height;
+  camera.updateProjectionMatrix();
+  // Update renderer
+  renderer.setSize(sizes.width, sizes.height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+});
+
+// Fullscreen with double click
+window.addEventListener("dblclick", () => {
+  // For work with safari
+  const fullscreenElement =
+    document.fullscreenElement || document.webkitFullscreenElement;
+  if (!fullscreenElement) {
+    if (canvasElement.requestFullscreen) {
+      canvasElement.requestFullscreen();
+    } else if (canvasElement.webkitRequestFullscreen) {
+      canvasElement.webkitRequestFullscreen();
+    }
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    }
+  }
+});
 // Controls
 const controls = new OrbitControls(camera, canvasElement);
 controls.enableDamping = true;
 // controls.target.y = 2
 // controls.update()
 
-const cursor = {
-  x: 0,
-  y: 0
-};
+// const cursor = {
+//   x: 0,
+//   y: 0
+// };
 
-window.addEventListener("mousemove", (event) => {
-  // console.log(event.clientX, event.clientY);
-  cursor.x = event.clientX / sizes.width - 0.5;
-  cursor.y = event.clientY / sizes.height - 0.5;
-});
+// window.addEventListener("mousemove", (event) => {
+//   // console.log(event.clientX, event.clientY);
+//   cursor.x = event.clientX / sizes.width - 0.5;
+//   cursor.y = event.clientY / sizes.height - 0.5;
+// });
 
 scene.add(camera);
 
@@ -67,7 +98,6 @@ const renderer = new THREE.WebGLRenderer({
   canvas: canvasElement
 });
 
-renderer.setSize(sizes.width, sizes.height);
 renderer.render(scene, camera);
 
 // let time = Date.now();
