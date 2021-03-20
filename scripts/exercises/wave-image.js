@@ -27,7 +27,7 @@ scene.add(camera);
 const controls = new OrbitControls(camera, canvasElement);
 controls.enableDamping = true;
 
-const geometry = new THREE.PlaneGeometry(0.4, 0.6, 16, 16);
+const geometry = new THREE.PlaneGeometry(0.4, 0.6, 64, 64);
 const material = new THREE.ShaderMaterial({
   uniforms: {
     uTime: { value: 0.0 },
@@ -41,9 +41,6 @@ const mesh = new THREE.Mesh(geometry, material);
 
 scene.add(mesh);
 
-const light = new THREE.AmbientLight();
-scene.add(light);
-
 const renderer = new THREE.WebGLRenderer({
   canvas: canvasElement,
   antialias: true
@@ -51,21 +48,10 @@ const renderer = new THREE.WebGLRenderer({
 
 renderer.setSize(sizes.width, sizes.height);
 renderer.setClearColor(0xffffff, 1);
-// renderer.render(scene, camera);
 
 const clock = new THREE.Clock();
 
 function tick() {
-  // const currentTime = Date.now();
-  // const deltaTime = currentTime - time;
-  // time = currentTime;
-  // const elapsedTime = clock.getElapsedTime();
-
-  // // Update camera with event mousemove
-  // camera.position.z = Math.cos(cursor.x * Math.PI * 2) + 3;
-  // camera.position.x = Math.sin(cursor.x * Math.PI * 2) + 3;
-  // camera.position.y = -cursor.y * 3;
-  // camera.lookAt(mesh.position);
   material.uniforms.uTime.value = clock.getElapsedTime();
 
   // Update controls
