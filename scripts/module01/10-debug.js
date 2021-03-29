@@ -3,7 +3,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 // import gsap from "gsap";
 import * as dat from "dat.gui";
 
-// Initialize debug
+// Debug
 const gui = new dat.GUI();
 
 // Get canvas element
@@ -14,7 +14,7 @@ const scene = new THREE.Scene();
 
 const sizes = {
   width: window.innerWidth,
-  height: window.innerHeight,
+  height: window.innerHeight
 };
 
 const fov = 75;
@@ -43,13 +43,17 @@ controls.enableDamping = true;
 scene.add(camera);
 
 const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2);
-const material = new THREE.MeshPhongMaterial({ color: "purple" });
+const material = new THREE.MeshPhongMaterial({
+  color: "purple"
+});
 
 const mesh = new THREE.Mesh(geometry, material);
 
+// Debug
 gui.add(mesh.position, "y").min(-3).max(3).step(0.01);
 gui.add(mesh.position, "x").min(-3).max(3).step(0.01);
 gui.add(mesh.position, "z").min(-3).max(3).step(0.01);
+
 gui.add(mesh, "visible");
 
 scene.add(mesh);
@@ -63,7 +67,7 @@ scene.add(directionalLight);
 
 const renderer = new THREE.WebGLRenderer({
   canvas: canvasElement,
-  antialias: true,
+  antialias: true
 });
 
 window.addEventListener("resize", (event) => {
@@ -78,7 +82,6 @@ window.addEventListener("resize", (event) => {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 });
 
-renderer.setSize(sizes.width, sizes.height);
 renderer.render(scene, camera);
 
 // Animations
