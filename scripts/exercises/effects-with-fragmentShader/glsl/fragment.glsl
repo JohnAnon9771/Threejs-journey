@@ -15,11 +15,13 @@ float map(float value, float min1, float max1, float min2, float max2){
 void main(){
   vec4 displacement = texture2D(uTextureImage, vUv.yx);
 
-  vec2 prec = normalize(vPosition.xy - mouse.xy);
+  vec2 direction = normalize(vPosition.xy - mouse.xy);
   float dist = length(vPosition - mouse);
   float prox = 1. - map(dist, 0., 0.4, 0., 1.);
 
-  vec2 zoomedUV = vUv + prec*prox*progress;
+  prox = clamp(prox, 0., 1.);
+
+  vec2 zoomedUV = mix(vUv, mouse.xy + vec2(0.5), prox*progress);
 
   vec2 displacementUV = zoomedUV;
   displacementUV.y = mix(vUv.y, displacement.r - 0.2,progress);
