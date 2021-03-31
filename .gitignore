@@ -2,6 +2,11 @@
 .codesandbox
 sandbox.config.json
 
+# folders
 node_modules
 dist
+
+# cache
 .parcel-cache
+.cache
+
